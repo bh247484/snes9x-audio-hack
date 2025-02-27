@@ -13,7 +13,6 @@
 #include "../display.h"
 #include "resampler.h"
 #include "hbbh/Orchestrator.h"
-// #include "macosx/gtk_sound.h" <-- revisit this...
 
 #include "bapu/snes/snes.hpp"
 
