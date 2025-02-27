@@ -505,4 +505,4 @@ MigrationBackup/
 profile
 
 # vscode
-.vscode/*
+.vscode/
