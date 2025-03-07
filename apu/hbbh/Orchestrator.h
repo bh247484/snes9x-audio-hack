@@ -4,7 +4,9 @@
 // sfx -> pitch -> more_dsp -> output
 
 // One branch per sound
+#include <string>
 #include "miniaudio.h"
+#include "SfxPack.h"
 
 class Orchestrator {
   ma_node_graph *graph;
@@ -12,7 +14,8 @@ class Orchestrator {
   ma_engine engine;
   ma_uint32 channels;
   ma_uint32 sampleRate;
-  ma_sound testSound;
+  SfxPack *sfxPack;
+  // ma_sound testSound;
 
   public:
   Orchestrator();
