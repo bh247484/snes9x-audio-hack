@@ -41,11 +41,7 @@ Orchestrator::~Orchestrator() {
 }
 
 // Method to forward an event
-void Orchestrator::ForwardEvent(int snd_queue) {
-    auto entry = sfxPack->sfxMap.find(snd_queue);
-    if (entry != sfxPack->sfxMap.end()) {
-         ma_sound_start(&entry->second);
-    }
-    
-    std::cout << "Snd Queue: " << snd_queue << std::endl;
+void Orchestrator::ForwardEvent(int sfxKey) {
+    sfxPack->PlaySound(sfxKey);
+    std::cout << "SfxKey: " << sfxKey << std::endl;
 }

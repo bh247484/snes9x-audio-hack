@@ -20,5 +20,5 @@ class Orchestrator {
   public:
   Orchestrator();
   ~Orchestrator();
-  void ForwardEvent(int snd_queue);
+  void ForwardEvent(int sfxKey);
 };

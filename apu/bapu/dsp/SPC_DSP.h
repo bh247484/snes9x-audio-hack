@@ -265,7 +265,7 @@ inline int SPC_DSP::read( int addr ) const
 	int data = m.external_regs[addr];
 	if ((addr >= v_srcn) && data != 0 && ((addr - v_srcn) % 0x10 == 0)) {
 		S9xForwardEvent(data);
-		printf("srcn (voice %d) - %d\n", (addr - v_srcn) / 0x10, data);
+		// printf("srcn (voice %d) - %d\n", (addr - v_srcn) / 0x10, data);
 	}
 	return data;
 }

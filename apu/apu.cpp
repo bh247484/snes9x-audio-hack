@@ -79,10 +79,10 @@ Orchestrator orch;
 
 // Weirdly needs to be namespaced because SPC_DSP header code wraps/prefixes all included methods with `SNES::`.
 namespace SNES {
-    void S9xForwardEvent(int snd_que)
+    void S9xForwardEvent(int sfx_key)
     {
         // printf("snd_que: %d\n", snd_que);
-        orch.ForwardEvent(snd_que);
+        orch.ForwardEvent(sfx_key);
     }
 }
 
