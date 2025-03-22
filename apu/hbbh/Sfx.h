@@ -9,9 +9,9 @@ class Sfx {
     ma_engine* engineRef;
     ma_node* output;
     ma_sound sound;
-    // ma_lpf_node lpf;
-    // ma_delay_node delay;
-    // std::array<ma_node*, 2> fxChain = { &lpf, &delay };
+    ma_lpf_node lpf;
+    ma_delay_node delay;
+    std::array<ma_node*, 2> fxChain = { nullptr, nullptr };
     std::vector<ma_sound> elasticSounds; // Dynamically allocated and self cleaning (elastic) sounds.
     std::vector<int> staleElasticSoundsQueue; // List of indices for sounds that are ready to be cleaned up.
     void CleanupStaleElasticSounds();

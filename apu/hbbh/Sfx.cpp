@@ -24,59 +24,55 @@ Sfx::Sfx(std::string filePath, std::string name, ma_engine* engineRef, ma_node *
   }
 
   // Init FX.
-  // auto sampleRate = ma_engine_get_sample_rate(engineRef);
-  // auto numChannels = ma_engine_get_channels(engineRef);
-  // auto lpfNodeConfig = ma_lpf_node_config_init(numChannels, sampleRate, (double)(sampleRate / 90), 2);
-  // auto delayNodeConfig = ma_delay_node_config_init(numChannels, sampleRate, sampleRate * 0.5f, 0.5f);
-  // fxChain[0] = lpf;
-  // fxChain[1] = delay;
+  auto sampleRate = ma_engine_get_sample_rate(engineRef);
+  auto numChannels = ma_engine_get_channels(engineRef);
+  auto lpfNodeConfig = ma_lpf_node_config_init(numChannels, sampleRate, (double)(sampleRate / 90), 2);
+  auto delayNodeConfig = ma_delay_node_config_init(numChannels, sampleRate, sampleRate * 0.5f, 0.5f);
 
-  // result = ma_lpf_node_init(graphRef, &lpfNodeConfig, NULL, &lpf);
-  // if (result != MA_SUCCESS) {
-  //   std::cout << "Failed to intialize lpf node." << std::endl;
-  //   return;
-  // }
+  result = ma_lpf_node_init(graphRef, &lpfNodeConfig, NULL, &lpf);
+  if (result != MA_SUCCESS) {
+    std::cout << "Failed to intialize lpf node." << std::endl;
+    return;
+  }
 
-  // result = ma_delay_node_init(graphRef, &delayNodeConfig, NULL, &delay);
-  // if (result != MA_SUCCESS) {
-  //   std::cout << "Failed to intialize delay node." << std::endl;
-  //   return;
-  // }
+  result = ma_delay_node_init(graphRef, &delayNodeConfig, NULL, &delay);
+  if (result != MA_SUCCESS) {
+    std::cout << "Failed to intialize delay node." << std::endl;
+    return;
+  }
 
-  // for (int i; i < fxChain.size(); i++) {
-  //   // If last fx in chain connect to output.
-  //   // Else connect it to the next fx in chain.
-  //   if (i == fxChain.size() - 1) {
-  //     result = ma_node_attach_output_bus(fxChain[i], 0, output, 0);
-  //     if (result != MA_SUCCESS) {
-  //       std::cout << "Failed to connect fx node index: " << i << std::endl;
-  //       return;
-  //     }
-  //   } else {
-  //     result = ma_node_attach_output_bus(fxChain[i], 0, fxChain[i + 1], 0);
-  //     if (result != MA_SUCCESS) {
-  //       std::cout << "Failed to connect fx node index: " << i << std::endl;
-  //       return;
-  //     }
-  //   }
-  // }
+  fxChain[0] = &lpf;
+  fxChain[1] = &delay;
 
-  // printf("here");
+  for (int i = 0; i < fxChain.size(); i++) {
+    // If last fx in chain connect to output.
+    // Else connect it to the next fx in chain.
+    if (i == fxChain.size() - 1) {
+      result = ma_node_attach_output_bus(fxChain[i], 0, output, 0);
+      if (result != MA_SUCCESS) {
+        std::cout << "Failed to connect fx node index: " << i << std::endl;
+        return;
+      }
+    } else {
+      result = ma_node_attach_output_bus(fxChain[i], 0, fxChain[i + 1], 0);
+      if (result != MA_SUCCESS) {
+        std::cout << "Failed to connect fx node index: " << i << std::endl;
+        return;
+      }
+    }
+  }
 
   // // Connect sfx node to fx chain.
-  // ma_node_attach_output_bus(&sound, 0, fxChain[0], 0);
-
-
-  ma_node_attach_output_bus(&sound, 0, output, 0);
+  ma_node_attach_output_bus(&sound, 0, fxChain[0], 0);
 }
 
 Sfx::~Sfx() {
   ma_sound_uninit(&sound);
 
-  // for (int i; i < fxChain.size(); i++) {
-  //   ma_node_uninit(&fxChain[i], NULL);
-  //   delete fxChain[i];
-  // }
+  for (int i = 0; i < fxChain.size(); i++) {
+    ma_node_uninit(&fxChain[i], NULL);
+    delete fxChain[i];
+  }
 }
 
 void Sfx::CleanupStaleElasticSounds() {
@@ -134,9 +130,9 @@ ma_sound* Sfx::SpawnElasticSound() {
   );
 
   // Attach to tip of FX chain.
-  // result = ma_node_attach_output_bus(soundRef, 0, fxChain[0], 0);
+  result = ma_node_attach_output_bus(soundRef, 0, fxChain[0], 0);
 
-  result = ma_node_attach_output_bus(soundRef, 0, output, 0);
+  // result = ma_node_attach_output_bus(soundRef, 0, output, 0);
 
   if (result != MA_SUCCESS) {
     std::cout << "Failed to attach elastic sound to fxChain: " << result << std::endl;
