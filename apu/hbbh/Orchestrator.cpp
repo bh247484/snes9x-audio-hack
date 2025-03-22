@@ -19,7 +19,7 @@ Orchestrator::Orchestrator() {
     graph = ma_engine_get_node_graph(&engine);
     output = ma_engine_get_endpoint(&engine);
 
-    sfxPack = new SfxPack(SFX_PACK_NAME, engine, output);
+    sfxPack = new SfxPack(SFX_PACK_NAME, &engine, output, graph);
 
     // result = ma_sound_init_from_file(&engine, "/Users/bh/Documents/game-audio/snes9x/apu/hbbh/wavs/metroid/blip.wav", MA_SOUND_FLAG_NO_DEFAULT_ATTACHMENT, NULL, NULL, &testSound);
     // if (result != MA_SUCCESS) {
@@ -42,6 +42,6 @@ Orchestrator::~Orchestrator() {
 
 // Method to forward an event
 void Orchestrator::ForwardEvent(int sfxKey) {
-    sfxPack->PlaySound(sfxKey);
+    sfxPack->PlaySfx(sfxKey);
     std::cout << "SfxKey: " << sfxKey << std::endl;
 }

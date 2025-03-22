@@ -1,4 +1,5 @@
 1. FX Chain
+- make Sfx Class
 - pitch
 
 

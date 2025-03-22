@@ -72331,19 +72331,23 @@ MA_API ma_result ma_node_attach_output_bus(ma_node* pNode, ma_uint32 outputBusIn
     ma_node_base* pOtherNodeBase = (ma_node_base*)pOtherNode;
 
     if (pNodeBase == NULL || pOtherNodeBase == NULL) {
+        printf("prb 1");
         return MA_INVALID_ARGS;
     }
 
     if (pNodeBase == pOtherNodeBase) {
+        printf("prb 2");
         return MA_INVALID_OPERATION;    /* Cannot attach a node to itself. */
     }
 
     if (outputBusIndex >= ma_node_get_output_bus_count(pNode) || otherNodeInputBusIndex >= ma_node_get_input_bus_count(pOtherNode)) {
+        printf("prb 3");
         return MA_INVALID_OPERATION;    /* Invalid bus index. */
     }
 
     /* The output channel count of the output node must be the same as the input channel count of the input node. */
     if (ma_node_get_output_channels(pNode, outputBusIndex) != ma_node_get_input_channels(pOtherNode, otherNodeInputBusIndex)) {
+        printf("prb 4");
         return MA_INVALID_OPERATION;    /* Channel count is incompatible. */
     }
 
@@ -73233,6 +73237,7 @@ MA_API ma_result ma_lpf_node_init(ma_node_graph* pNodeGraph, const ma_lpf_node_c
     ma_node_config baseNodeConfig;
 
     if (pNode == NULL) {
+        printf("the problem0");
         return MA_INVALID_ARGS;
     }
 
