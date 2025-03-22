@@ -1,6 +1,6 @@
 1. FX Chain
-- make Sfx Class
-- pitch
+- ✅ make Sfx Class
+- pitch dsp, custom node
 
 
 2. ✅ Playing Multiple of The Same Sounds
